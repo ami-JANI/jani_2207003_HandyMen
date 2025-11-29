@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox alignment="CENTER" prefHeight="720" prefWidth="1280" spacing="12"
+      stylesheets="@com/example/style.css"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.handymen.UserSignupController">
+
+    <children>
+
+        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo.png" />
+            </image>
+        </ImageView>
+
+        <Label text="Worker Sign-Up">
+            <font>
+                <Font name="Inter Semi Bold" size="28.0" />
+            </font>
+        </Label>
+
+        <TextField fx:id="nameField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Full Name" VBox.vgrow="NEVER"/>
+        <TextField fx:id="emailField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Email" VBox.vgrow="NEVER"/>
+        <TextField fx:id="phoneField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Phone Number" VBox.vgrow="NEVER"/>
+
+        <ComboBox fx:id="categoryField" maxWidth="450" promptText="Service Category" VBox.vgrow="NEVER">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String>Electrician</String>
+                    <String>Plumber</String>
+                    <String>Painter</String>
+                    <String>Mason</String>
+                    <String>Maid</String>
+                    <String>Internet Provider</String>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <TextField fx:id="experienceField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Experience (years)" VBox.vgrow="NEVER"/>
+        <TextField fx:id="rateField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Hourly Rate / Service Charge" VBox.vgrow="NEVER"/>
+        <TextField fx:id="locationField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="City / Area" VBox.vgrow="NEVER"/>
+
+        <PasswordField fx:id="passwordField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Password" VBox.vgrow="NEVER"/>
+        <PasswordField fx:id="confirmPasswordField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Confirm Password" VBox.vgrow="NEVER"/>
+
+        <Button onAction="#onSignUpSubmit" prefWidth="150" style="-fx-background-color: #2d9d48; -fx-text-fill: white;" text="Sign Up">
+            <font>
+                <Font name="Roboto Light" size="22.0" />
+            </font>
+        </Button>
+
+        <Hyperlink onAction="#onBackToLogin" text="Back to Login" />
+    </children>
+</VBox>

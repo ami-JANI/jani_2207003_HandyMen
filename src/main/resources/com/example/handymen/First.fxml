@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="720" prefWidth="1280" stylesheets="@com/example/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.HelloController">
+   <center>
+      <HBox alignment="CENTER" spacing="40" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+               <Button fx:id="workerButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onWorkerClick" prefHeight="210.0" prefWidth="230.0" styleClass="main-button" text="I am a Worker" textAlignment="CENTER" textFill="#750a0a">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+      
+                     <Button fx:id="userButton" onAction="#onUserClick" prefHeight="210.0" prefWidth="230.0" styleClass="main-button" text="I am an User" textAlignment="CENTER" />
+         </children></HBox>
+   </center>
+
+</BorderPane>

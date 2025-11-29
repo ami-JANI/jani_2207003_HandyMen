@@ -1,0 +1,23 @@
+.root {
+    -fx-background-image: url("background.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+.main-button {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-background-color: #0A3D62;
+    -fx-text-fill: white;
+    -fx-padding: 15px 40px;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.main-button:hover {
+    -fx-background-color: #0A3D62;
+}
+
+.main-button:pressed {
+    -fx-background-color: #005c84;
+}
