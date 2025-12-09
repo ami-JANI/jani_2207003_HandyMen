@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class UserLoginController {
+public class WorkerSignupController {
+
+    @FXML
+    private TextField nameField;
 
     @FXML
     private TextField emailField;
@@ -22,25 +25,33 @@ public class UserLoginController {
     private PasswordField passwordField;
 
     @FXML
-    public void onLoginClick(ActionEvent event) {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+    private PasswordField confirmPasswordField;
 
-        if (email.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "Email or Password cannot be empty.");
+    @FXML
+    public void onSignUpSubmit(ActionEvent event) {
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String pass = passwordField.getText();
+        String confirmPass = confirmPasswordField.getText();
+
+        if (name.isEmpty() || email.isEmpty() || pass.isEmpty() || confirmPass.isEmpty()) {
+            showAlert("Error", "All fields must be filled.");
             return;
         }
-        if (email.equals("test@gmail.com") && password.equals("1234")) {
-            showAlert("Success", "Login Successful!");
-            // After login you can navigate to home page
-        } else {
-            showAlert("Error", "Incorrect Email or Password.");
+
+        if (!pass.equals(confirmPass)) {
+            showAlert("Error", "Passwords do not match.");
+            return;
         }
+
+        showAlert("Success", "Account created successfully!");
+
+
     }
 
     @FXML
-    public void onSignUpClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("user_signup.fxml"));
+    public void onBackToLogin(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("Worker_login.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

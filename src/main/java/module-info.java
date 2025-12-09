@@ -2,6 +2,8 @@ module com.example.handymen {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    opens com.example to javafx.fxml;
+    exports com.example;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;

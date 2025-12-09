@@ -4,14 +4,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <VBox alignment="CENTER" prefHeight="720" prefWidth="1280" spacing="12"
       stylesheets="@com/example/style.css"
       xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.handymen.UserSignupController">
+      fx:controller="com.example.handymen.WorkerSignupController">
 
     <children>
 
@@ -31,18 +30,19 @@
         <TextField fx:id="emailField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Email" VBox.vgrow="NEVER"/>
         <TextField fx:id="phoneField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Phone Number" VBox.vgrow="NEVER"/>
 
-        <ComboBox fx:id="categoryField" maxWidth="450" promptText="Service Category" VBox.vgrow="NEVER">
+        <ComboBox fx:id="categoryField" maxWidth="450" promptText="Service Category">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String>Electrician</String>
-                    <String>Plumber</String>
-                    <String>Painter</String>
-                    <String>Mason</String>
-                    <String>Maid</String>
-                    <String>Internet Provider</String>
+                    <String fx:value="Electrician"/>
+                    <String fx:value="Plumber"/>
+                    <String fx:value="Painter"/>
+                    <String fx:value="Mason"/>
+                    <String fx:value="Maid"/>
+                    <String fx:value="Internet Provider"/>
                 </FXCollections>
             </items>
         </ComboBox>
+
         <TextField fx:id="experienceField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Experience (years)" VBox.vgrow="NEVER"/>
         <TextField fx:id="rateField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Hourly Rate / Service Charge" VBox.vgrow="NEVER"/>
         <TextField fx:id="locationField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="City / Area" VBox.vgrow="NEVER"/>

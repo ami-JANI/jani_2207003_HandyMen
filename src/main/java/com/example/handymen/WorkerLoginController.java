@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class UserLoginController {
+public class WorkerLoginController {
 
     @FXML
     private TextField emailField;
@@ -30,6 +30,7 @@ public class UserLoginController {
             showAlert("Error", "Email or Password cannot be empty.");
             return;
         }
+
         if (email.equals("test@gmail.com") && password.equals("1234")) {
             showAlert("Success", "Login Successful!");
             // After login you can navigate to home page
@@ -40,7 +41,7 @@ public class UserLoginController {
 
     @FXML
     public void onSignUpClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("user_signup.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Worker_signup.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
