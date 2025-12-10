@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class UserLoginController {
 
@@ -20,6 +21,15 @@ public class UserLoginController {
 
     @FXML
     private PasswordField passwordField;
+
+    private Connection connect() {
+        try {
+            return DriverManager.getConnection("jdbc:sqlite:handymen.db");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @FXML
     public void onLoginClick(ActionEvent event) {
@@ -30,11 +40,35 @@ public class UserLoginController {
             showAlert("Error", "Email or Password cannot be empty.");
             return;
         }
-        if (email.equals("test@gmail.com") && password.equals("1234")) {
-            showAlert("Success", "Login Successful!");
-            // After login you can navigate to home page
-        } else {
-            showAlert("Error", "Incorrect Email or Password.");
+
+        try (Connection conn = connect()) {
+
+            if (conn == null) {
+                showAlert("Error", "Database connection failed!");
+                return;
+            }
+
+            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                showAlert("Success", "Login Successful!");
+
+                Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root, 1280, 960));
+                stage.show();
+
+            } else {
+                showAlert("Error", "Incorrect Email or Password.");
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Login failed due to a database error.");
         }
     }
 
@@ -42,7 +76,7 @@ public class UserLoginController {
     public void onSignUpClick(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("user_signup.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(root, 1280, 960));
         stage.show();
     }
 

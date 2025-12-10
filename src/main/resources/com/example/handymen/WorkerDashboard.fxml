@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" spacing="25" prefWidth="1280" prefHeight="960"
+      stylesheets="@com/example/style.css"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.handymen.WorkerDashboardController">
+
+    <Label text="Worker Dashboard">
+        <font><Font name="Inter Semi Bold" size="38"/></font>
+    </Label>
+
+    <!-- Center container -->
+    <VBox spacing="20" alignment="CENTER">
+        <GridPane hgap="20" vgap="18">
+            <padding>
+                <Insets top="20" right="40" bottom="20" left="40"/>
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="200"/>
+                <ColumnConstraints minWidth="350"/>
+            </columnConstraints>
+
+            <children>
+                <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="phoneField" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Category:" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="categoryField" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Experience:" GridPane.rowIndex="4" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="experienceField" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Rate:" GridPane.rowIndex="5" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="rateField" GridPane.rowIndex="5" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+
+                <Label text="Location:" GridPane.rowIndex="6" GridPane.columnIndex="0">
+                    <font><Font size="20"/></font>
+                </Label>
+                <TextField fx:id="locationField" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                           prefHeight="42" prefWidth="350" />
+            </children>
+        </GridPane>
+
+        <!-- Buttons -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Change Password" fx:id="changePasswordBtn"
+                    style="-fx-font-size: 18;" prefHeight="45" prefWidth="180" />
+
+            <Button text="Save Changes" fx:id="saveBtn" onAction="#onSaveChangesClick"
+                    style="-fx-background-color: #2d9d48; -fx-text-fill: white; -fx-font-size: 18;"
+                    prefHeight="45" prefWidth="180" />
+        </HBox>
+    </VBox>
+
+</VBox>

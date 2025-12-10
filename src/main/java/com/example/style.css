@@ -15,6 +15,23 @@
 .main-button:hover {
     -fx-background-color: #007cb2;
 }
+.animated-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12px 24px;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0), 0, 0, 0, 0);
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+    -fx-transition: 0.2s;
+}
+
+.animated-button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0.3, 0, 5);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
 
 .main-button:pressed {
     -fx-background-color: #005c84;

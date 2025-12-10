@@ -13,6 +13,8 @@ module com.example.handymen {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires javafx.base;
+    requires javafx.graphics;
 
     opens com.example.handymen to javafx.fxml;
     exports com.example.handymen;

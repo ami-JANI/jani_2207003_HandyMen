@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.12" stylesheets="@com/example/style.css"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.handymen.InternetController"
+      style="-fx-padding: 20;">
+
+    <Label text="Internet Workers" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+
+    <TableView fx:id="internetTable" prefHeight="600" prefWidth="1000">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="300"/>
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="350"/>
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="250"/>
+        </columns>
+    </TableView>
+
+    <Button text="Back to Home" fx:id="backButton" onAction="#backToHome"
+            style="-fx-background-color: #6a0dad; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 16;" />
+
+</VBox>

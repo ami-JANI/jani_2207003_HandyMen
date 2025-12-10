@@ -17,6 +17,7 @@ public class HelloController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        Scene scene = new Scene(root, 1280, 960);
         stage.show();
     }
 

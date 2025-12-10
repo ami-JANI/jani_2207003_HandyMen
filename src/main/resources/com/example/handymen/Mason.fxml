@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<VBox spacing="20" alignment="CENTER" prefWidth="1280" prefHeight="720" stylesheets="@com/example/style.css"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.handymen.MasonController"
+      style="-fx-padding: 30; -fx-background-color: #f8f8f8;">
+
+    <Label text="Available Masons" style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="workerTable" prefHeight="600" prefWidth="1100">
+        <columns>
+            <TableColumn fx:id="nameCol" text="Name" prefWidth="180" />
+            <TableColumn fx:id="emailCol" text="Email" prefWidth="200" />
+            <TableColumn fx:id="phoneCol" text="Phone" prefWidth="140" />
+            <TableColumn fx:id="experienceCol" text="Experience" prefWidth="120" />
+            <TableColumn fx:id="rateCol" text="Rate" prefWidth="100" />
+            <TableColumn fx:id="locationCol" text="Location" prefWidth="160" />
+        </columns>
+    </TableView>
+
+    <Button text="Back to Home" fx:id="backBtn" onAction="#backToHome"
+            style="-fx-background-color: #6a0dad; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 18; -fx-background-radius: 10;"/>
+
+</VBox>

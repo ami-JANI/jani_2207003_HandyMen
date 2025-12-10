@@ -14,6 +14,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Handyman Finder - Login");
         stage.setScene(scene);
         stage.show();
+        DatabaseSetup.createWorkerTable();
     }
 
     public static void main(String[] args) {

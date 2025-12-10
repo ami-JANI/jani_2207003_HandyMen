@@ -12,14 +12,18 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class WorkerLoginController {
+
+    public static String loggedWorkerEmail = null; // store logged in worker email
 
     @FXML
     private TextField emailField;
 
     @FXML
     private PasswordField passwordField;
+
 
     @FXML
     public void onLoginClick(ActionEvent event) {
@@ -31,21 +35,46 @@ public class WorkerLoginController {
             return;
         }
 
-        if (email.equals("test@gmail.com") && password.equals("1234")) {
-            showAlert("Success", "Login Successful!");
-            // After login you can navigate to home page
-        } else {
-            showAlert("Error", "Incorrect Email or Password.");
+        try (Connection conn = DatabaseConnection.connect()) {
+
+            String sql = "SELECT * FROM workers WHERE email = ? AND password = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // store email for dashboard
+                loggedWorkerEmail = email;
+
+                showAlert("Success", "Login Successful!");
+
+                // navigate to dashboard ----------
+                Parent root = FXMLLoader.load(getClass().getResource("WorkerDashboard.fxml"));
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root, 1280, 960));
+                stage.show();
+
+            } else {
+                showAlert("Error", "Incorrect Email or Password.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Database error!");
         }
     }
 
+
     @FXML
     public void onSignUpClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Worker_signup.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        Parent root = FXMLLoader.load(getClass().getResource("Worker_Signup.fxml"));
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 1280, 960));
         stage.show();
     }
+
 
     private void showAlert(String title, String message) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -55,3 +84,4 @@ public class WorkerLoginController {
         a.show();
     }
 }
+
