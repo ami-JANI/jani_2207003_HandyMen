@@ -1,80 +1,84 @@
 package com.example.handymen;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class ElectricianController {
 
-    @FXML private TableView<Worker> workerTable;
-
-    @FXML private TableColumn<Worker, String> colEmail;
-    @FXML private TableColumn<Worker, String> colName;
-    @FXML private TableColumn<Worker, String> colPhone;
-    @FXML private TableColumn<Worker, String> colExperience;
-    @FXML private TableColumn<Worker, String> colArea;
-    @FXML private TableColumn<Worker, String> colPrice;
+    @FXML private TableView<Worker> electriciantable;
+    @FXML private TableColumn<Worker, String> nameCol, emailCol, phoneCol, experienceCol, rateCol, locationCol;
 
     @FXML
     public void initialize() {
-        colEmail.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
-        colName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        colPhone.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPhone()));
-        colExperience.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getExperience()));
-        colArea.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getArea()));
-        colPrice.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrice()));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        experienceCol.setCellValueFactory(new PropertyValueFactory<>("experience"));
+        rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 
-        loadData();
+        loadWorkers("Electrician");
     }
 
-    private void loadData() {
+    private void loadWorkers(String c) {
         ObservableList<Worker> list = FXCollections.observableArrayList();
 
-        String query = "SELECT * FROM workers WHERE category = 'Electrician'";
-
-        try {
-            Connection conn = DatabaseConnection.connect();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        try (Connection con = DatabaseConnection.connect()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT * FROM workers WHERE category=?"
+            );
+            ps.setString(1, c);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 list.add(new Worker(
-                        rs.getString("email"),
                         rs.getString("name"),
+                        rs.getString("email"),
                         rs.getString("phone"),
                         rs.getString("experience"),
-                        rs.getString("area"),
-                        rs.getString("category"),
-                        rs.getString("price")
+                        rs.getString("rate"),
+                        rs.getString("location"),
+                        rs.getString("category")
                 ));
             }
 
-            workerTable.setItems(list);
+            electriciantable.setItems(list);
 
         } catch (Exception e) {
             e.printStackTrace();
+            alert("Error", "Could not load " + c + " workers.");
         }
     }
 
     @FXML
-    private void goHome() {
-        try {
-            Stage stage = new Stage();
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/com/example/handymen/Interface.fxml"))));
-            stage.show();
-            workerTable.getScene().getWindow().hide();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void goHome(ActionEvent e) throws IOException {
+        Parent r = FXMLLoader.load(getClass().getResource("interface.fxml"));
+        Stage s = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        s.setScene(new Scene(r, 1280, 960));
+        s.show();
+    }
+
+    void alert(String t, String m) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(t);
+        a.setHeaderText(null);
+        a.setContentText(m);
+        a.show();
     }
 }

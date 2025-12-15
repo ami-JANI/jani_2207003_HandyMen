@@ -14,16 +14,16 @@
 
     <TableView fx:id="workerTable" prefHeight="600" prefWidth="1100">
         <columns>
-            <TableColumn fx:id="nameCol" text="Name" prefWidth="180" />
-            <TableColumn fx:id="emailCol" text="Email" prefWidth="200" />
-            <TableColumn fx:id="phoneCol" text="Phone" prefWidth="140" />
-            <TableColumn fx:id="experienceCol" text="Experience" prefWidth="120" />
-            <TableColumn fx:id="rateCol" text="Rate" prefWidth="100" />
-            <TableColumn fx:id="locationCol" text="Location" prefWidth="160" />
+            <TableColumn fx:id="nameCol" prefWidth="146.0" text="Name" />
+            <TableColumn fx:id="emailCol" prefWidth="189.0" text="Email" />
+            <TableColumn fx:id="phoneCol" prefWidth="181.0" text="Phone" />
+            <TableColumn fx:id="experienceCol" prefWidth="151.0" text="Experience" />
+            <TableColumn fx:id="rateCol" prefWidth="116.0" text="Rate" />
+            <TableColumn fx:id="locationCol" prefWidth="216.0" text="Location" />
         </columns>
     </TableView>
 
-    <Button text="Back to Home" fx:id="backBtn" onAction="#backToHome"
+    <Button text="Back to Home" styleClass="animated-button" fx:id="backBtn" onAction="#backToHome"
             style="-fx-background-color: #6a0dad; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 18; -fx-background-radius: 10;"/>
 
 </VBox>

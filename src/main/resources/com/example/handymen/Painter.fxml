@@ -11,13 +11,16 @@
 
     <TableView fx:id="painterTable" prefHeight="600" prefWidth="1000">
         <columns>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="300"/>
-            <TableColumn fx:id="emailColumn" text="Email" prefWidth="350"/>
-            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="250"/>
+            <TableColumn fx:id="nameCol" prefWidth="146.0" text="Name" />
+            <TableColumn fx:id="emailCol" prefWidth="189.0" text="Email" />
+            <TableColumn fx:id="phoneCol" prefWidth="181.0" text="Phone" />
+            <TableColumn fx:id="experienceCol" prefWidth="151.0" text="Experience" />
+            <TableColumn fx:id="rateCol" prefWidth="116.0" text="Rate" />
+            <TableColumn fx:id="locationCol" prefWidth="216.0" text="Location" />
         </columns>
     </TableView>
 
-    <Button text="Back to Home" fx:id="backButton" onAction="#backToHome"
+    <Button text="Back to Home" fx:id="backButton" styleClass="animated-button" onAction="#backToHome"
             style="-fx-background-color: #6a0dad; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 16;" />
 
 </VBox>

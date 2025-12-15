@@ -15,7 +15,6 @@
         <font><Font name="Inter Semi Bold" size="38"/></font>
     </Label>
 
-    <!-- Center container -->
     <VBox spacing="20" alignment="CENTER">
         <GridPane hgap="20" vgap="18">
             <padding>
@@ -72,7 +71,6 @@
             </children>
         </GridPane>
 
-        <!-- Buttons -->
         <HBox spacing="20" alignment="CENTER">
             <Button text="Change Password" fx:id="changePasswordBtn"
                     style="-fx-font-size: 18;" prefHeight="45" prefWidth="180" />

@@ -92,7 +92,6 @@ public class UserSignupController {
 
             showAlert("Success", "Account created successfully!");
 
-            // Go back to login page
             Parent root = FXMLLoader.load(getClass().getResource("user_login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 1280, 960));

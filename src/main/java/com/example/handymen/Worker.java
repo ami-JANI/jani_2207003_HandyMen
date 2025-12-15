@@ -1,29 +1,25 @@
 package com.example.handymen;
-
 public class Worker {
-    private String email;
-    private String name;
-    private String phone;
-    private String experience;
-    private String area;
-    private String category;
-    private String price;
 
-    public Worker(String email, String name, String phone, String experience, String area, String category, String price) {
-        this.email = email;
+    private String name, email, phone, experience, rate, location, category;
+
+    public Worker(String name, String email, String phone,
+                  String experience, String rate,
+                  String location, String category) {
         this.name = name;
+        this.email = email;
         this.phone = phone;
         this.experience = experience;
-        this.area = area;
+        this.rate = rate;
+        this.location = location;
         this.category = category;
-        this.price = price;
     }
 
-    public String getEmail() { return email; }
     public String getName() { return name; }
+    public String getEmail() { return email; }
     public String getPhone() { return phone; }
     public String getExperience() { return experience; }
-    public String getArea() { return area; }
+    public String getRate() { return rate; }
+    public String getLocation() { return location; }
     public String getCategory() { return category; }
-    public String getPrice() { return price; }
 }

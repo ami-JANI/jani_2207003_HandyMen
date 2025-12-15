@@ -27,7 +27,7 @@ public class InterFaceController {
 
     @FXML
     private void openElectricianPage(ActionEvent event) {
-        openPage(event, "/com/example/handymen/Electrician.fxml");
+        openPage(event, "/com/example/handymen/electrician.fxml");
     }
 
     @FXML

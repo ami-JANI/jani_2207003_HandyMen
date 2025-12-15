@@ -16,7 +16,7 @@ import java.sql.*;
 
 public class WorkerLoginController {
 
-    public static String loggedWorkerEmail = null; // store logged in worker email
+    public static String loggedWorkerEmail = null;
 
     @FXML
     private TextField emailField;
@@ -45,12 +45,10 @@ public class WorkerLoginController {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                // store email for dashboard
                 loggedWorkerEmail = email;
 
                 showAlert("Success", "Login Successful!");
 
-                // navigate to dashboard ----------
                 Parent root = FXMLLoader.load(getClass().getResource("WorkerDashboard.fxml"));
                 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root, 1280, 960));
