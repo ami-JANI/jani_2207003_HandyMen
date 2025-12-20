@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.*;
 
 public class UserLoginController {
+    public static String loggedUserEmail = null;
 
     @FXML
     private TextField emailField;
@@ -55,14 +56,22 @@ public class UserLoginController {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                showAlert("Success", "Login Successful!");
+                loggedUserEmail = email;
+
+                // SAVE SESSION
+                Session.setUser(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("name")
+                );
 
                 Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root, 1280, 960));
                 stage.show();
+            }
 
-            } else {
+            else {
                 showAlert("Error", "Incorrect Email or Password.");
             }
 

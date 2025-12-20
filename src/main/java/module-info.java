@@ -15,6 +15,8 @@ module com.example.handymen {
     requires java.sql;
     requires javafx.base;
     requires javafx.graphics;
+    requires jdk.javadoc;
+    //requires com.example.handymen;
 
     opens com.example.handymen to javafx.fxml;
     exports com.example.handymen;

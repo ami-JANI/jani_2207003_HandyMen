@@ -16,7 +16,7 @@ public class WorkerDashboardController implements Initializable {
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
-    @FXML private TextField categoryField;
+    @FXML private TextField professionField;
     @FXML private TextField experienceField;
     @FXML private TextField rateField;
     @FXML private TextField locationField;
@@ -39,7 +39,7 @@ public class WorkerDashboardController implements Initializable {
                 nameField.setText(rs.getString("name"));
                 emailField.setText(rs.getString("email"));
                 phoneField.setText(rs.getString("phone"));
-                categoryField.setText(rs.getString("category"));
+                professionField.setText(rs.getString("profession"));
                 experienceField.setText(rs.getString("experience"));
                 rateField.setText(rs.getString("rate"));
                 locationField.setText(rs.getString("location"));
@@ -55,10 +55,10 @@ public class WorkerDashboardController implements Initializable {
 
         String newName = nameField.getText();
         String newPhone = phoneField.getText();
-        String newCategory = categoryField.getText();
+        String newProfession = professionField.getText();
         String newExperience = experienceField.getText();
 
-        String updateQuery = "UPDATE worker SET name=?,phone=? [Category]=?, experience=? WHERE email=?";
+        String updateQuery = "UPDATE workers SET name=?,phone=?,experience=? ,profession=? WHERE email=?";
 
 
         try (Connection conn = DatabaseConnection.connect();
@@ -66,7 +66,7 @@ public class WorkerDashboardController implements Initializable {
 
             stmt.setString(1, newName);
             stmt.setString(2, newPhone);
-            stmt.setString(3, newCategory);
+            stmt.setString(3, newProfession);
             stmt.setString(4, newExperience);
             stmt.setString(5, loggedWorkerEmail);
 

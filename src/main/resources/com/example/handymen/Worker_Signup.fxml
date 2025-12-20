@@ -30,7 +30,7 @@
         <TextField fx:id="emailField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Email" VBox.vgrow="NEVER"/>
         <TextField fx:id="phoneField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Phone Number" VBox.vgrow="NEVER"/>
 
-        <ComboBox fx:id="categoryField" maxWidth="450" promptText="Service Category">
+        <ComboBox fx:id="professionField" maxWidth="450" promptText="Service Category">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Electrician"/>

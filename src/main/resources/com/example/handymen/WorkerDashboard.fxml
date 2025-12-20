@@ -45,10 +45,10 @@
                 <TextField fx:id="phoneField" GridPane.rowIndex="2" GridPane.columnIndex="1"
                            prefHeight="42" prefWidth="350" />
 
-                <Label text="Category:" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                <Label text="Profession:" GridPane.rowIndex="3" GridPane.columnIndex="0">
                     <font><Font size="20"/></font>
                 </Label>
-                <TextField fx:id="categoryField" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                <TextField fx:id="professionField" GridPane.rowIndex="3" GridPane.columnIndex="1"
                            prefHeight="42" prefWidth="350" />
 
                 <Label text="Experience:" GridPane.rowIndex="4" GridPane.columnIndex="0">

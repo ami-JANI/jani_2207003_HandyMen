@@ -30,13 +30,13 @@ public class InternetController {
         experienceCol.setCellValueFactory(new PropertyValueFactory<>("experience"));
         rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        loadWorkers("Internet");
+        loadWorkers("Internet Provider");
     }
 
     private void loadWorkers(String c) {
         ObservableList<Worker> list = FXCollections.observableArrayList();
         try (Connection con = DatabaseConnection.connect()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM workers WHERE category=?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM workers WHERE profession=?");
             ps.setString(1, c);
             ResultSet rs = ps.executeQuery();
 
@@ -45,7 +45,7 @@ public class InternetController {
                         rs.getString("name"), rs.getString("email"),
                         rs.getString("phone"), rs.getString("experience"),
                         rs.getString("rate"), rs.getString("location"),
-                        rs.getString("category")
+                        rs.getString("profession")
                 ));
             }
             internetTable.setItems(list);

@@ -41,7 +41,7 @@ public class ElectricianController {
 
         try (Connection con = DatabaseConnection.connect()) {
             PreparedStatement ps = con.prepareStatement(
-                    "SELECT * FROM workers WHERE category=?"
+                    "SELECT * FROM workers WHERE profession=?"
             );
             ps.setString(1, c);
             ResultSet rs = ps.executeQuery();
@@ -54,7 +54,7 @@ public class ElectricianController {
                         rs.getString("experience"),
                         rs.getString("rate"),
                         rs.getString("location"),
-                        rs.getString("category")
+                        rs.getString("profession")
                 ));
             }
 

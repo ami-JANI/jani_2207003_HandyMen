@@ -5,31 +5,79 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="960" prefWidth="1280" spacing="12" stylesheets="@com/example/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.handymen.UserSignupController">
+<VBox alignment="CENTER"
+      prefHeight="960"
+      prefWidth="1280"
+      spacing="12"
+      stylesheets="@com/example/style.css"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.handymen.UserSignupController">
 
     <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@logo.png" />
-         </image>
-      </ImageView>
+
+        <ImageView fitHeight="150.0" fitWidth="200.0"
+                   pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@logo.png"/>
+            </image>
+        </ImageView>
 
         <Label text="Create New Account">
-         <font>
-            <Font name="Inter Semi Bold" size="28.0" />
-         </font></Label>
+            <font>
+                <Font name="Inter Semi Bold" size="28.0"/>
+            </font>
+        </Label>
 
-        <TextField fx:id="nameField" maxWidth="450" opacity="0.95" prefHeight="44" prefWidth="450" promptText="Full Name" VBox.vgrow="NEVER" />
-        <TextField fx:id="emailField" maxWidth="450" opacity="0.95" prefHeight="44" prefWidth="450" promptText="Email" VBox.vgrow="NEVER" />
-        <PasswordField fx:id="passwordField" maxWidth="450" opacity="0.95" prefHeight="44" prefWidth="450" promptText="Password" VBox.vgrow="NEVER" />
-        <PasswordField fx:id="confirmPasswordField" maxWidth="450" opacity="0.95" prefHeight="44" prefWidth="450" promptText="Confirm Password" VBox.vgrow="NEVER" />
+        <TextField fx:id="nameField"
+                   maxWidth="450"
+                   prefHeight="44"
+                   prefWidth="450"
+                   opacity="0.95"
+                   promptText="Full Name"/>
 
-        <Button onAction="#onSignUpSubmit" styleClass="animated-button" prefWidth="150" style="-fx-background-color: #2d9d48; -fx-text-fill: white;" text="Sign Up" >
-         <font>
-            <Font name="Roboto Light" size="22.0" />
-         </font></Button>
+        <TextField fx:id="emailField"
+                   maxWidth="450"
+                   prefHeight="44"
+                   prefWidth="450"
+                   opacity="0.95"
+                   promptText="Email"/>
 
-        <Hyperlink onAction="#onBackToLogin" text="Back to Login" />
+        <!-- ✅ Phone Number -->
+        <TextField fx:id="phoneField"
+                   maxWidth="450"
+                   prefHeight="44"
+                   prefWidth="450"
+                   opacity="0.95"
+                   promptText="Phone Number"/>
+
+        <PasswordField fx:id="passwordField"
+                       maxWidth="450"
+                       prefHeight="44"
+                       prefWidth="450"
+                       opacity="0.95"
+                       promptText="Password"/>
+
+        <PasswordField fx:id="confirmPasswordField"
+                       maxWidth="450"
+                       prefHeight="44"
+                       prefWidth="450"
+                       opacity="0.95"
+                       promptText="Confirm Password"/>
+
+        <Button text="Sign Up"
+                prefWidth="150"
+                onAction="#onSignUpSubmit"
+                styleClass="animated-button"
+                style="-fx-background-color: #2d9d48; -fx-text-fill: white;">
+            <font>
+                <Font name="Roboto Light" size="22.0"/>
+            </font>
+        </Button>
+
+        <Hyperlink text="Back to Login"
+                   onAction="#onBackToLogin"/>
 
     </children>
 </VBox>

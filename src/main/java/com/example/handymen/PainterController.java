@@ -36,7 +36,7 @@ public class PainterController {
     private void loadWorkers(String c) {
         ObservableList<Worker> list = FXCollections.observableArrayList();
         try (Connection con = DatabaseConnection.connect()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM workers WHERE category=?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM workers WHERE profession=?");
             ps.setString(1, c);
             ResultSet rs = ps.executeQuery();
 
@@ -45,7 +45,7 @@ public class PainterController {
                         rs.getString("name"), rs.getString("email"),
                         rs.getString("phone"), rs.getString("experience"),
                         rs.getString("rate"), rs.getString("location"),
-                        rs.getString("category")
+                        rs.getString("profession")
                 ));
             }
             painterTable.setItems(list);

@@ -11,7 +11,7 @@ public class DatabaseSetup {
                 "name TEXT, " +
                 "email TEXT, " +
                 "phone TEXT, " +
-                "category TEXT, " +
+                "profession TEXT, " +
                 "experience TEXT, " +
                 "rate TEXT, " +
                 "location TEXT, " +
@@ -22,6 +22,24 @@ public class DatabaseSetup {
              Statement stmt = conn.createStatement()) {
             stmt.execute(query);
             System.out.println("Worker table ensured.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void createUserTable() {
+        String query = "CREATE TABLE IF NOT EXISTS users (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "email TEXT, " +
+                "phone TEXT, " +
+                "password TEXT" +
+                "address TEXT" +
+                ");";
+
+        try (Connection conn = DatabaseConnection.connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(query);
+            System.out.println("User table ensured.");
         } catch (Exception e) {
             e.printStackTrace();
         }

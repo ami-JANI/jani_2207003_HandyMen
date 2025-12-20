@@ -15,6 +15,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         DatabaseSetup.createWorkerTable();
+        DatabaseSetup.createUserTable();
     }
 
     public static void main(String[] args) {

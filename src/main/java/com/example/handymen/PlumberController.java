@@ -63,7 +63,7 @@ public class PlumberController {
         try (Connection conn = DatabaseConnection.connect()) {
 
 
-            String sql = "SELECT * FROM workers WHERE category = 'Plumber'";
+            String sql = "SELECT * FROM workers WHERE profession = 'Plumber'";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -75,7 +75,7 @@ public class PlumberController {
                         rs.getString("experience"),
                         rs.getString("rate"),
                         rs.getString("location"),
-                        rs.getString("category")
+                        rs.getString("profession")
                 ));
             }
 

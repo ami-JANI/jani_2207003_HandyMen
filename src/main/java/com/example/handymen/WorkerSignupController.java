@@ -22,7 +22,7 @@ public class WorkerSignupController {
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
-    @FXML private ComboBox<String> categoryField;
+    @FXML private ComboBox<String> professionField;
     @FXML private TextField experienceField;
     @FXML private TextField rateField;
     @FXML private TextField locationField;
@@ -34,7 +34,7 @@ public class WorkerSignupController {
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
-        String category = categoryField.getValue();
+        String profession = professionField.getValue();
         String exp = experienceField.getText();
         String rate = rateField.getText();
         String location = locationField.getText();
@@ -42,7 +42,7 @@ public class WorkerSignupController {
         String confirmPass = confirmPasswordField.getText();
 
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty() ||
-                category == null || exp.isEmpty() || rate.isEmpty() ||
+                profession == null || exp.isEmpty() || rate.isEmpty() ||
                 location.isEmpty() || pass.isEmpty() || confirmPass.isEmpty()) {
 
             showAlert("Error", "All fields must be filled.");
@@ -67,12 +67,12 @@ public class WorkerSignupController {
                 return;
             }
 
-            String insert = "INSERT INTO workers (name, email, phone, [category], experience, rate, location, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO workers (name, email, phone, profession, experience, rate, location, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(insert);
             ps.setString(1, name);
             ps.setString(2, email);
             ps.setString(3, phone);
-            ps.setString(4, category);
+            ps.setString(4, profession);
             ps.setString(5, exp);
             ps.setString(6, rate);
             ps.setString(7, location);

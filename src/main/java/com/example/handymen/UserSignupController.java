@@ -24,6 +24,8 @@ public class UserSignupController {
 
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private TextField phoneField;
 
     @FXML
     private PasswordField confirmPasswordField;
@@ -41,6 +43,7 @@ public class UserSignupController {
     public void onSignUpSubmit(ActionEvent event) {
         String name = nameField.getText();
         String email = emailField.getText();
+        String phone = phoneField.getText();
         String pass = passwordField.getText();
         String confirmPass = confirmPasswordField.getText();
 
@@ -66,7 +69,9 @@ public class UserSignupController {
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
                         email TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL
+                        phone TEXT NOT NULL,
+                        password TEXT NOT NULL,
+                        address TEXT
                     );
                     """;
             conn.createStatement().execute(tableSQL);
@@ -81,14 +86,20 @@ public class UserSignupController {
                 showAlert("Error", "Email already registered. Try logging in.");
                 return;
             }
+            String sql = """
+INSERT INTO users (name, email, phone, password)
+VALUES (?, ?, ?, ?)
+""";
 
-            String insertSQL = "INSERT INTO users(name, email, password) VALUES(?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(insertSQL);
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setString(2, email);
-            stmt.setString(3, pass);
+            stmt.setString(3, phone);
+            stmt.setString(4, pass);
 
             stmt.executeUpdate();
+
+
 
             showAlert("Success", "Account created successfully!");
 

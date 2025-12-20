@@ -13,7 +13,15 @@
     -fx-background-radius: 12;
     -fx-cursor: hand;
 }
-
+.menu-button {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-background-color: #0A3D62;
+    -fx-text-fill: black;
+    -fx-padding: 15px 40px;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
 .main-button:hover {
     -fx-background-color: #0A3D62;
 }
