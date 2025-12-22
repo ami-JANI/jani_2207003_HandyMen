@@ -58,7 +58,6 @@ public class UserLoginController {
             if (rs.next()) {
                 loggedUserEmail = email;
 
-                // SAVE SESSION
                 Session.setUser(
                         rs.getInt("id"),
                         rs.getString("email"),

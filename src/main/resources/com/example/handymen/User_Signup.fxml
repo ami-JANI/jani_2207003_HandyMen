@@ -44,7 +44,6 @@
                    opacity="0.95"
                    promptText="Email"/>
 
-        <!-- ✅ Phone Number -->
         <TextField fx:id="phoneField"
                    maxWidth="450"
                    prefHeight="44"

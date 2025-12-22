@@ -79,7 +79,7 @@ public class InterFaceController {
 
     @FXML
     void signOut(ActionEvent e) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("user_login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("First.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
