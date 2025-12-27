@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane prefWidth="900" prefHeight="600"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.handymen.WorkerDetailsController">
+
+    <top>
+        <Label text="Worker Details"
+               BorderPane.alignment="CENTER"
+               style="-fx-font-size: 28px; -fx-padding: 20;" />
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <GridPane hgap="20" vgap="15" alignment="CENTER">
+                <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="nameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="emailLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="phoneLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="Profession:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="professionLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label text="Experience:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label fx:id="experienceLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <Label text="Rate:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label fx:id="rateLabel" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label text="Location:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label fx:id="locationLabel" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <DatePicker fx:id="datePicker" onAction="#onDateSelected"/>
+
+            <GridPane fx:id="slotsGrid" hgap="10" vgap="10" alignment="CENTER"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+            <Button text="Close" onAction="#onClose"/>
+        </HBox>
+    </bottom>
+</BorderPane>

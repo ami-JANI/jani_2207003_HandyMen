@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 
 public class PasswordUtil {
 
-    // Hash password using SHA-256
     public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -21,7 +20,6 @@ public class PasswordUtil {
         }
     }
 
-    // Verify entered password with stored hash
     public static boolean verifyPassword(String enteredPassword, String storedHash) {
         String enteredHash = hashPassword(enteredPassword);
         return enteredHash.equals(storedHash);

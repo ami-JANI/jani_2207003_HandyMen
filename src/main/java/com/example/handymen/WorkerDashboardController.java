@@ -8,12 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.example.handymen.WorkerLoginController.loggedWorkerEmail;
@@ -27,10 +31,17 @@ public class WorkerDashboardController implements Initializable {
     @FXML private TextField experienceField;
     @FXML private TextField rateField;
     @FXML private TextField locationField;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @FXML private DatePicker calendar;
+    @FXML private GridPane slotGrid;
+    private final String workerEmail = WorkerLoginController.loggedWorkerEmail;
+    @FXML
+    public void initialize() {
         loadWorkerData();
+
+        calendar.setValue(LocalDate.now());
+        calendar.setOnAction(e -> loadSlots(calendar.getValue()));
+
+        loadSlots(LocalDate.now());
     }
 
     private void loadWorkerData() {
@@ -56,7 +67,66 @@ public class WorkerDashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+    private void loadSlots(LocalDate date) {
+        slotGrid.getChildren().clear();
 
+        for (int i = 1; i <= 8; i++) {
+            Button slotBtn = new Button("Slot " + i);
+            slotBtn.setPrefWidth(120);
+
+            String status = getSlotStatus(date, i);
+
+            if (status.equals("BOOKED")) {
+                slotBtn.setStyle("-fx-background-color:#e74c3c; -fx-text-fill:white;");
+                slotBtn.setDisable(true);
+            } else if (status.equals("PENDING")) {
+                slotBtn.setStyle("-fx-background-color:#f39c12; -fx-text-fill:white;");
+                int finalI = i;
+                slotBtn.setOnAction(e -> approveSlot(date, finalI));
+            } else {
+                slotBtn.setStyle("-fx-background-color:#2ecc71; -fx-text-fill:white;");
+                slotBtn.setDisable(true);
+            }
+
+            slotGrid.add(slotBtn, (i - 1) % 4, (i - 1) / 4);
+        }
+    }
+
+    private String getSlotStatus(LocalDate date, int slot) {
+        try (Connection con = DatabaseConnection.connect()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT status FROM worker_slots WHERE worker_email=? AND work_date=? AND slot=?"
+            );
+            ps.setString(1, workerEmail);
+            ps.setString(2, date.toString());
+            ps.setInt(3, slot);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("status");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "AVAILABLE";
+    }
+
+    private void approveSlot(LocalDate date, int slot) {
+        try (Connection con = DatabaseConnection.connect()) {
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE worker_slots SET status='BOOKED' WHERE worker_email=? AND work_date=? AND slot=?"
+            );
+            ps.setString(1, workerEmail);
+            ps.setString(2, date.toString());
+            ps.setInt(3, slot);
+            ps.executeUpdate();
+
+            showAlert("Approved", "Slot booked successfully.");
+            loadSlots(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     private void onSaveChangesClick() {
 
@@ -65,7 +135,7 @@ public class WorkerDashboardController implements Initializable {
         String newProfession = professionField.getText();
         String newExperience = experienceField.getText();
 
-        String updateQuery = "UPDATE workers SET name=?,phone=?,experience=? ,profession=? WHERE email=?";
+        String updateQuery = "UPDATE workers SET name=?,phone=? ,profession=?,experience=? WHERE email=?";
 
 
         try (Connection conn = DatabaseConnection.connect();
@@ -105,5 +175,15 @@ public class WorkerDashboardController implements Initializable {
         a.setHeaderText(null);
         a.setContentText(msg);
         a.show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadWorkerData();
+
+        calendar.setValue(LocalDate.now());
+        calendar.setOnAction(e -> loadSlots(calendar.getValue()));
+
+        loadSlots(LocalDate.now());
     }
 }

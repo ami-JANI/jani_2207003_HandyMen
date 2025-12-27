@@ -50,13 +50,27 @@
                    prefWidth="450"
                    opacity="0.95"
                    promptText="Phone Number"/>
+        <TextField fx:id="addressField"
+                   maxWidth="450"
+                   prefHeight="44"
+                   prefWidth="450"
+                   opacity="0.95"
+                   promptText="Address"/>
 
         <PasswordField fx:id="passwordField"
                        maxWidth="450"
                        prefHeight="44"
                        prefWidth="450"
-                       opacity="0.95"
-                       promptText="Password"/>
+                       promptText="Password"
+                       onKeyReleased="#onPasswordTyping"/>
+
+        <VBox spacing="4" alignment="CENTER_LEFT" maxWidth="450">
+            <CheckBox fx:id="lengthCheck" text="Minimum 8 characters" disable="true"/>
+            <CheckBox fx:id="upperLowerCheck" text="Uppercase and Lowercase letters" disable="true"/>
+            <CheckBox fx:id="numberCheck" text="Contains a number" disable="true"/>
+            <CheckBox fx:id="specialCharCheck" text="Contains special character (!@#$%^&amp;*)" disable="true"/>
+        </VBox>
+
 
         <PasswordField fx:id="confirmPasswordField"
                        maxWidth="450"

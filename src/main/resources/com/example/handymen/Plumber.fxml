@@ -3,11 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.12" stylesheets="@com/example/style.css"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.handymen.PlumberController"
       style="-fx-padding: 20;">
 
     <Label text="Plumber Workers" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+    <ComboBox fx:id="filterBox" prefWidth="200">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="My Location"/>
+                <String fx:value="All Workers"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
 
     <TableView fx:id="plumberTable" prefHeight="600" prefWidth="1000">
         <columns>

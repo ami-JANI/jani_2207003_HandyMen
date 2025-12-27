@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,27 +22,9 @@ import java.sql.ResultSet;
 
 public class PlumberController {
 
-    @FXML
-    private TableView<Worker> plumberTable;
-
-    @FXML
-    private TableColumn<Worker, String> nameCol;
-
-    @FXML
-    private TableColumn<Worker, String> emailCol;
-
-    @FXML
-    private TableColumn<Worker, String> phoneCol;
-
-    @FXML
-    private TableColumn<Worker, String> experienceCol;
-
-    @FXML
-    private TableColumn<Worker, String> rateCol;
-
-    @FXML
-    private TableColumn<Worker, String> locationCol;
-
+    @FXML private TableView<Worker> plumberTable;
+    @FXML private TableColumn<Worker, String> nameCol, emailCol, phoneCol, experienceCol, rateCol, locationCol;
+    @FXML private ComboBox<String> filterBox;
 
     @FXML
     public void initialize() {
@@ -53,18 +36,45 @@ public class PlumberController {
         rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 
-        loadPlumbers();
+        filterBox.setItems(FXCollections.observableArrayList(
+                "My Location",
+                "All Workers"
+        ));
+
+        filterBox.setValue("My Location");
+
+        loadWorkers(true);
+
+        filterBox.setOnAction(e -> {
+            boolean onlyMyLocation = filterBox.getValue().equals("My Location");
+            loadWorkers(onlyMyLocation);
+        });
     }
 
+    private void loadWorkers(boolean onlyMyLocation) {
 
-    private void loadPlumbers() {
         ObservableList<Worker> list = FXCollections.observableArrayList();
+        String sql;
 
-        try (Connection conn = DatabaseConnection.connect()) {
+        if (onlyMyLocation) {
+            sql = """
+                  SELECT * FROM workers
+                  WHERE profession=?
+                  AND LOWER(TRIM(location)) = LOWER(TRIM(?))
+                  """;
+        } else {
+            sql = "SELECT * FROM workers WHERE profession=?";
+        }
 
+        try (Connection con = DatabaseConnection.connect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            String sql = "SELECT * FROM workers WHERE profession = 'Plumber'";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "Plumber");
+
+            if (onlyMyLocation) {
+                ps.setString(2, UserSession.getUserLocation());
+            }
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -81,27 +91,31 @@ public class PlumberController {
 
             plumberTable.setItems(list);
 
+            if (list.isEmpty()) {
+                alert("Info", onlyMyLocation
+                        ? "No plumbers found in your location."
+                        : "No plumbers available.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to load plumber data.");
+            alert("Error", "Failed to load plumbers.");
         }
     }
 
-
     @FXML
-    public void backToHome(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("InterFace.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    public void backToHome(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
     }
 
-
-    private void showAlert(String title, String msg) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.show();
+    private void alert(String title, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.show();
     }
 }

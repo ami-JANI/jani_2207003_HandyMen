@@ -6,79 +6,109 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="960" prefWidth="1280" stylesheets="@com/example/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.handymen.WorkerDashboardController">
+<StackPane prefHeight="960"
+           prefWidth="1280"
+           stylesheets="@com/example/style.css"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.handymen.WorkerDashboardController">
 
-    <!-- ================= SIGN OUT BUTTON ================= -->
-
-
-    <!-- ================= MAIN CONTENT ================= -->
-    <VBox alignment="CENTER" spacing="20">
-
-        <Label text="Worker Dashboard">
-            <font>
-                <Font name="Inter Semi Bold" size="38" />
-            </font>
-        </Label>
-
-        <GridPane hgap="20" vgap="18">
+    <ScrollPane fitToWidth="true" >
+        <VBox alignment="CENTER" spacing="30" >
             <padding>
-                <Insets bottom="20" left="40" right="40" top="20" />
+                <Insets top="30" right="30" bottom="30" left="30"/>
             </padding>
 
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" minWidth="200" />
-                <ColumnConstraints minWidth="350" />
-            </columnConstraints>
 
-            <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Worker Dashboard">
+                <font>
+                    <Font name="Inter Semi Bold" size="38"/>
+                </font>
+            </Label>
 
-            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane hgap="20" vgap="18" >
+                <padding>
+                    <Insets bottom="20" left="40" right="40" top="20"/>
+                </padding>
 
-            <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="200"/>
+                    <ColumnConstraints minWidth="350"/>
+                </columnConstraints>
 
-            <Label text="Profession:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <TextField fx:id="professionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label text="Full Name:" GridPane.rowIndex="0"/>
+                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-            <Label text="Experience:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="experienceField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label text="Email:" GridPane.rowIndex="1"/>
+                <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label text="Rate:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="rateField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label text="Phone:" GridPane.rowIndex="2"/>
+                <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-            <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
+                <Label text="Profession:" GridPane.rowIndex="3"/>
+                <TextField fx:id="professionField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-        <HBox alignment="CENTER" spacing="20">
-            <Button prefWidth="180" text="Change Password">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor></Button>
-            <Button onAction="#onSaveChangesClick" prefWidth="180" style="-fx-background-color: #2d9d48; -fx-text-fill: white;" styleClass="animated-button" text="Save Changes" />
-        </HBox>
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
+                <Label text="Experience:" GridPane.rowIndex="4"/>
+                <TextField fx:id="experienceField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-    </VBox>
+                <Label text="Rate:" GridPane.rowIndex="5"/>
+                <TextField fx:id="rateField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                <Label text="Location:" GridPane.rowIndex="6"/>
+                <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            </GridPane>
+            <HBox alignment="CENTER" spacing="20">
+                <Button text="Change Password" prefWidth="180"/>
+                <Button text="Save Changes"
+                        prefWidth="180"
+                        onAction="#onSaveChangesClick"
+                        style="-fx-background-color:#2d9d48; -fx-text-fill:white;"
+                        styleClass="animated-button"/>
+            </HBox>
+
+            <Separator/>
+
+            <Label text="Work Availability">
+                <font>
+                    <Font name="Inter Semi Bold" size="26"/>
+                </font>
+            </Label>
+
+            <DatePicker fx:id="calendar"/>
+
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="🟩 Free"/>
+                <Label text="🟨 Requested"/>
+                <Label text="🟥 Booked"/>
+            </HBox>
+
+            <GridPane fx:id="slotGrid"
+                      hgap="15"
+                      vgap="15"
+                      alignment="CENTER">
+
+                <Button text="8:00 - 9:00" prefWidth="150"/>
+                <Button text="9:00 - 10:00" prefWidth="150"/>
+                <Button text="10:00 - 11:00" prefWidth="150"/>
+                <Button text="11:00 - 12:00" prefWidth="150"/>
+
+                <Button text="2:00 - 3:00" prefWidth="150" GridPane.rowIndex="1"/>
+                <Button text="3:00 - 4:00" prefWidth="150" GridPane.rowIndex="1"/>
+                <Button text="4:00 - 5:00" prefWidth="150" GridPane.rowIndex="1"/>
+                <Button text="5:00 - 6:00" prefWidth="150" GridPane.rowIndex="1"/>
+
+            </GridPane>
+
+        </VBox>
+    </ScrollPane>
+
     <Button text="Sign Out"
             onAction="#onSignOut"
             StackPane.alignment="TOP_RIGHT"
-            style="-fx-background-color: #c0392b; -fx-text-fill: white;">
+            style="-fx-background-color:#c0392b; -fx-text-fill:white;">
         <StackPane.margin>
             <Insets top="20" right="30"/>
         </StackPane.margin>
     </Button>
+
 </StackPane>

@@ -6,7 +6,7 @@ public class Session {
     private static String userEmail;
     private static String userName;
 
-    public static void setUser(int id, String email, String name) {
+    public static void setUser(int id, String email, String name, String address) {
         userId = id;
         userEmail = email;
         userName = name;

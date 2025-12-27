@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,9 +24,20 @@ public class ElectricianController {
 
     @FXML private TableView<Worker> electriciantable;
     @FXML private TableColumn<Worker, String> nameCol, emailCol, phoneCol, experienceCol, rateCol, locationCol;
+    @FXML private ComboBox<String> filterBox;
 
     @FXML
     public void initialize() {
+
+        electriciantable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Worker selectedWorker = electriciantable.getSelectionModel().getSelectedItem();
+                if (selectedWorker != null) {
+                    openWorkerDetails(selectedWorker);
+                }
+            }
+        });
+
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -33,17 +45,45 @@ public class ElectricianController {
         rateCol.setCellValueFactory(new PropertyValueFactory<>("rate"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 
-        loadWorkers("Electrician");
+        filterBox.setItems(FXCollections.observableArrayList(
+                "My Location",
+                "All Workers"
+        ));
+
+        filterBox.setValue("My Location");
+
+        loadWorkers(true);
+
+        filterBox.setOnAction(e -> {
+            boolean onlyMyLocation = filterBox.getValue().equals("My Location");
+            loadWorkers(onlyMyLocation);
+        });
     }
 
-    private void loadWorkers(String c) {
-        ObservableList<Worker> list = FXCollections.observableArrayList();
+    private void loadWorkers(boolean onlyMyLocation) {
 
-        try (Connection con = DatabaseConnection.connect()) {
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT * FROM workers WHERE profession=?"
-            );
-            ps.setString(1, c);
+        ObservableList<Worker> list = FXCollections.observableArrayList();
+        String sql;
+
+        if (onlyMyLocation) {
+            sql = """
+                  SELECT * FROM workers
+                  WHERE profession=?
+                  AND LOWER(TRIM(location)) = LOWER(TRIM(?))
+                  """;
+        } else {
+            sql = "SELECT * FROM workers WHERE profession=?";
+        }
+
+        try (Connection con = DatabaseConnection.connect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "Electrician");
+
+            if (onlyMyLocation) {
+                ps.setString(2, UserSession.getUserLocation());
+            }
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -60,25 +100,51 @@ public class ElectricianController {
 
             electriciantable.setItems(list);
 
+            if (list.isEmpty()) {
+                alert("Info", onlyMyLocation
+                        ? "No electricians found in your location."
+                        : "No electricians available.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-            alert("Error", "Could not load " + c + " workers.");
+            alert("Error", "Failed to load electricians.");
         }
     }
 
     @FXML
     public void goHome(ActionEvent e) throws IOException {
-        Parent r = FXMLLoader.load(getClass().getResource("interface.fxml"));
-        Stage s = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        s.setScene(new Scene(r, 1280, 960));
-        s.show();
+        Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 1280, 960));
+        stage.show();
+    }
+    private void openWorkerDetails(Worker worker) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("WorkerDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            WorkerDetailsController controller = loader.getController();
+            controller.setWorker(worker);
+
+            Stage stage = new Stage();
+            stage.setTitle("Worker Details");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert("Error", "Unable to open worker details.");
+        }
     }
 
-    void alert(String t, String m) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle(t);
-        a.setHeaderText(null);
-        a.setContentText(m);
-        a.show();
+    private void alert(String title, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.show();
     }
 }

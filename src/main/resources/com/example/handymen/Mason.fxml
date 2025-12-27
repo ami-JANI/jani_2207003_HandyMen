@@ -5,14 +5,24 @@
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <VBox spacing="20" alignment="CENTER" prefWidth="1280" prefHeight="720" stylesheets="@com/example/style.css"
       xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.handymen.MasonController"
       style="-fx-padding: 30; -fx-background-color: #f8f8f8;">
 
     <Label text="Available Masons" style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
+    <ComboBox fx:id="filterBox" prefWidth="200">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="My Location"/>
+                <String fx:value="All Workers"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
 
-    <TableView fx:id="workerTable" prefHeight="600" prefWidth="1100">
+    <TableView fx:id="masonTable" prefHeight="600" prefWidth="1100">
         <columns>
             <TableColumn fx:id="nameCol" prefWidth="146.0" text="Name" />
             <TableColumn fx:id="emailCol" prefWidth="189.0" text="Email" />

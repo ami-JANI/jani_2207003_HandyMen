@@ -16,6 +16,7 @@ import java.sql.*;
 
 public class UserLoginController {
     public static String loggedUserEmail = null;
+    public static String loggedUserLocation = null;
 
     @FXML
     private TextField emailField;
@@ -49,20 +50,27 @@ public class UserLoginController {
                 return;
             }
 
-            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+            String sql = "SELECT id,email,name,address FROM users WHERE email = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
+
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+
+
                 loggedUserEmail = email;
+                loggedUserLocation = rs.getString("address");
 
                 Session.setUser(
                         rs.getInt("id"),
                         rs.getString("email"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getString("address")
                 );
+                UserSession.setUserLocation(rs.getString("address"));
+                System.out.println("User location: " + rs.getString("address"));
 
                 Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
