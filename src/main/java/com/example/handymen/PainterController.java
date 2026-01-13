@@ -30,7 +30,15 @@ public class PainterController {
     @FXML
     public void initialize() {
 
-        // Table column bindings
+        painterTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Worker selectedWorker = painterTable.getSelectionModel().getSelectedItem();
+                if (selectedWorker != null) {
+                    openWorkerDetails(selectedWorker);
+                }
+            }
+        });
+
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -91,17 +99,17 @@ public class PainterController {
                 ));
             }
 
-           painterTable.setItems(list);
+            painterTable.setItems(list);
 
             if (list.isEmpty()) {
                 alert("Info", onlyMyLocation
-                        ? "No painters found in your location."
-                        : "No painters available.");
+                        ? "No Painter found in your location."
+                        : "No Painter available.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            alert("Error", "Failed to load painters.");
+            alert("Error", "Failed to load Painters.");
         }
     }
 
@@ -111,6 +119,26 @@ public class PainterController {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
+    }
+    private void openWorkerDetails(Worker worker) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("WorkerDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            WorkerDetailsController controller = loader.getController();
+            controller.setWorker(worker);
+
+            Stage stage = new Stage();
+            stage.setTitle("Worker Details");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert("Error", "Unable to open worker details.");
+        }
     }
 
     private void alert(String title, String msg) {

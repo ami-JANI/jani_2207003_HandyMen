@@ -17,16 +17,17 @@ import static com.example.handymen.UserLoginController.loggedUserEmail;
 
 public class WorkerDetailsController {
 
-    @FXML private Label nameLabel, emailLabel, phoneLabel, professionLabel, experienceLabel, rateLabel, locationLabel;
+    @FXML private Label nameLabel, emailLabel, phoneLabel, professionLabel,
+            experienceLabel, rateLabel, locationLabel;
     @FXML private DatePicker datePicker;
     @FXML private GridPane slotsGrid;
 
     private Worker worker;
 
-    private final Color AVAILABLE = Color.LIGHTGRAY;
-    private final Color REQUESTED = Color.YELLOW;
-    private final Color BOOKED = Color.LIGHTGREEN;
-    private final Color UNAVAILABLE = Color.RED;
+    // 🎨 COLORS
+    private final Color AVAILABLE   = Color.GRAY;
+    private final Color REQUESTED   = Color.GOLD;
+    private final Color BOOKED      = Color.RED;
 
     public void setWorker(Worker worker) {
         this.worker = worker;
@@ -45,72 +46,155 @@ public class WorkerDetailsController {
 
     @FXML
     private void onDateSelected() {
-        LocalDate date = datePicker.getValue();
-        loadSlots(date);
+        loadSlots(datePicker.getValue());
     }
+    private void handleSlotClick(Rectangle rect, LocalDate date, int slot) {
 
-    private void loadSlots(LocalDate date) {
-        slotsGrid.getChildren().clear();
+        rect.setOnMouseClicked(event -> {
 
-        try (Connection conn = DatabaseConnection.connect()) {
-            for (int i = 0; i < 8; i++) {
-                int slot = i + 1;
-
-                PreparedStatement ps = conn.prepareStatement(
-                        "SELECT * FROM worker_slots WHERE worker_email=? AND work_date=? AND slot=?"
-                );
-                ps.setString(1, worker.getEmail());
-                ps.setString(2, date.toString());
-                ps.setInt(3, slot);
-
-                ResultSet rs = ps.executeQuery();
-
-                Rectangle rect = new Rectangle(80, 50);
-                rect.setStroke(Color.BLACK);
-
-                if (rs.next()) {
-                    String status = rs.getString("status");
-                    switch (status) {
-                        case "requested" -> rect.setFill(REQUESTED);
-                        case "booked" -> rect.setFill(BOOKED);
-                        case "unavailable" -> rect.setFill(UNAVAILABLE);
-                        default -> rect.setFill(AVAILABLE);
-                    }
-                } else {
-                    rect.setFill(AVAILABLE);
-                }
-
-                final int finalSlot = slot;
-                rect.setOnMouseClicked(event -> handleSlotClick(rect, date, finalSlot));
-                if (rect.getFill() == UNAVAILABLE || rect.getFill() == BOOKED) {
-                    rect.setDisable(true);
-                }
-
-                slotsGrid.add(rect, i % 4, i / 4);
+            if (event.getClickCount() == 2) {
+                // DOUBLE CLICK → CANCEL
+                cancelSlot(rect, date, slot);
+                return;
             }
+
+            // SINGLE CLICK → REQUEST
+            if (rect.getFill().equals(Color.LIGHTGREEN)) {
+                requestSlot(rect, date, slot);
+            }
+        });
+    }
+    private void requestSlot(Rectangle rect, LocalDate date, int slot) {
+        try (Connection conn = DatabaseConnection.connect()) {
+
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO worker_slots " +
+                            "(worker_email, work_date, slot, status, user_email, seen) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)"
+            );
+
+            ps.setString(1, worker.getEmail());
+            ps.setString(2, date.toString());
+            ps.setInt(3, slot);
+            ps.setString(4, "requested");
+            ps.setString(5, loggedUserEmail);
+            ps.setInt(6, 0);
+
+            ps.executeUpdate();
+
+            rect.setFill(REQUESTED);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void handleSlotClick(Rectangle rect, LocalDate date, int slot) {
+    private void cancelRequest(Rectangle rect, LocalDate date, int slot) {
         try (Connection conn = DatabaseConnection.connect()) {
-            String currentColor = rect.getFill().toString();
 
-            if (currentColor.equals(AVAILABLE.toString())) {
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE FROM worker_slots WHERE worker_email=? AND work_date=? AND slot=? AND user_email=?"
+            );
+            ps.setString(1, worker.getEmail());
+            ps.setString(2, date.toString());
+            ps.setInt(3, slot);
+            ps.setString(4, loggedUserEmail);
+            ps.executeUpdate();
+
+            rect.setFill(AVAILABLE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void cancelSlot(Rectangle rect, LocalDate date, int slot) {
+        try (Connection conn = DatabaseConnection.connect()) {
+
+            PreparedStatement ps = conn.prepareStatement(
+                    "DELETE FROM worker_slots WHERE worker_email=? AND work_date=? AND slot=? AND user_email=?"
+            );
+            ps.setString(1, worker.getEmail());
+            ps.setString(2, date.toString());
+            ps.setInt(3, slot);
+            ps.setString(4, loggedUserEmail);
+            ps.executeUpdate();
+
+            rect.setFill(Color.LIGHTGREEN);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // ================= LOAD SLOTS =================
+    private void loadSlots(LocalDate date) {
+        slotsGrid.getChildren().clear();
+
+        try (Connection conn = DatabaseConnection.connect()) {
+
+            for (int i = 1; i <= 8; i++) {
+                int slotNo = i;
+
+                Rectangle rect = new Rectangle(80, 50);
+                rect.setStroke(Color.BLACK);
 
                 PreparedStatement ps = conn.prepareStatement(
-                        "INSERT INTO worker_slots(worker_email, work_date, slot, status, user_email) VALUES(?,?,?,?,?)"
+                        "SELECT status, user_email FROM worker_slots " +
+                                "WHERE worker_email=? AND work_date=? AND slot=?"
                 );
                 ps.setString(1, worker.getEmail());
                 ps.setString(2, date.toString());
-                ps.setInt(3, slot);
-                ps.setString(4, "requested");
-                ps.setString(5, loggedUserEmail);
-                ps.executeUpdate();
+                ps.setInt(3, slotNo);
 
-                rect.setFill(REQUESTED);
+                ResultSet rs = ps.executeQuery();
+
+                if (!rs.next()) {
+                    rect.setFill(Color.LIGHTGRAY);
+
+                    rect.setOnMouseClicked(e ->
+                            requestSlot(rect, date, slotNo)
+                    );
+                }
+
+                else {
+                    String status = rs.getString("status");
+                    String userEmail = rs.getString("user_email");
+
+                    if ("requested".equals(status)) {
+
+                        if (userEmail.equals(loggedUserEmail)) {
+
+                            rect.setFill(Color.GOLD);
+
+                            rect.setOnMouseClicked(e ->
+                                    cancelRequest(rect, date, slotNo)
+                            );
+
+                        } else {
+
+                            rect.setFill(Color.RED);
+                            rect.setDisable(true);
+                        }
+                    }
+
+                    else if ("booked".equals(status)) {
+
+                        if (userEmail.equals(loggedUserEmail)) {
+                            rect.setFill(Color.GREEN);
+
+                        } else {
+                            rect.setFill(Color.RED);
+                            rect.setDisable(true);
+                        }
+                    }
+                }
+
+                slotsGrid.add(rect, (i - 1) % 4, (i - 1) / 4);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

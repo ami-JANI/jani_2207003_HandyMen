@@ -68,13 +68,19 @@ public class InterFaceController {
     }
 
     @FXML
-    void openRequests(ActionEvent e) {
-        System.out.println("Requests");
+    void openRequests(ActionEvent e) throws IOException {
+        openNewWindow("requested_work.fxml", "Requested Work");
     }
-
     @FXML
-    void openOngoingWork(ActionEvent e) {
-        System.out.println("Ongoing Work");
+    void openOngoingWork(ActionEvent e) throws IOException {
+        openNewWindow("ongoing_work.fxml", "Ongoing Work");
+    }
+    private void openNewWindow(String fxml, String title) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
     }
 
     @FXML

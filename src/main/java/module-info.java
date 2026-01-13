@@ -16,6 +16,7 @@ module com.example.handymen {
     requires javafx.base;
     requires javafx.graphics;
     requires jdk.javadoc;
+    requires java.desktop;
     //requires com.example.handymen;
 
     opens com.example.handymen to javafx.fxml;

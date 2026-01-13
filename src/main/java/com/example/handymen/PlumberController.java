@@ -1,3 +1,4 @@
+
 package com.example.handymen;
 
 import javafx.collections.FXCollections;
@@ -22,12 +23,21 @@ import java.sql.ResultSet;
 
 public class PlumberController {
 
-    @FXML private TableView<Worker> plumberTable;
+    @FXML private TableView<Worker>plumberTable;
     @FXML private TableColumn<Worker, String> nameCol, emailCol, phoneCol, experienceCol, rateCol, locationCol;
     @FXML private ComboBox<String> filterBox;
 
     @FXML
     public void initialize() {
+
+       plumberTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Worker selectedWorker =plumberTable.getSelectionModel().getSelectedItem();
+                if (selectedWorker != null) {
+                    openWorkerDetails(selectedWorker);
+                }
+            }
+        });
 
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -89,12 +99,12 @@ public class PlumberController {
                 ));
             }
 
-            plumberTable.setItems(list);
+           plumberTable.setItems(list);
 
             if (list.isEmpty()) {
                 alert("Info", onlyMyLocation
-                        ? "No plumbers found in your location."
-                        : "No plumbers available.");
+                        ? "No plumber found in your location."
+                        : "No plumber available.");
             }
 
         } catch (Exception e) {
@@ -110,6 +120,26 @@ public class PlumberController {
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
     }
+    private void openWorkerDetails(Worker worker) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("WorkerDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            WorkerDetailsController controller = loader.getController();
+            controller.setWorker(worker);
+
+            Stage stage = new Stage();
+            stage.setTitle("Worker Details");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert("Error", "Unable to open worker details.");
+        }
+    }
 
     private void alert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -119,3 +149,4 @@ public class PlumberController {
         alert.show();
     }
 }
+

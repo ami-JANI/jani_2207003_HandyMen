@@ -4,9 +4,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
-<VBox alignment="CENTER" prefHeight="960" prefWidth="1280" spacing="12"
+<?import java.lang.String?>
+
+<VBox alignment="CENTER"
+      prefHeight="960"
+      prefWidth="1280"
+      spacing="12"
       stylesheets="@com/example/style.css"
       xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -14,21 +18,21 @@
 
     <children>
 
-        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="150" fitWidth="200" preserveRatio="true">
             <image>
-                <Image url="@logo.png" />
+                <Image url="@logo.png"/>
             </image>
         </ImageView>
 
         <Label text="Worker Sign-Up">
             <font>
-                <Font name="Inter Semi Bold" size="28.0" />
+                <Font name="Inter Semi Bold" size="28"/>
             </font>
         </Label>
 
-        <TextField fx:id="nameField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Full Name" VBox.vgrow="NEVER"/>
-        <TextField fx:id="emailField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Email" VBox.vgrow="NEVER"/>
-        <TextField fx:id="phoneField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Phone Number" VBox.vgrow="NEVER"/>
+        <TextField fx:id="nameField" maxWidth="450" prefHeight="44" promptText="Full Name"/>
+        <TextField fx:id="emailField" maxWidth="450" prefHeight="44" promptText="Email"/>
+        <TextField fx:id="phoneField" maxWidth="450" prefHeight="44" promptText="Phone Number"/>
 
         <ComboBox fx:id="professionField" maxWidth="450" promptText="Service Category">
             <items>
@@ -43,19 +47,41 @@
             </items>
         </ComboBox>
 
-        <TextField fx:id="experienceField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Experience (years)" VBox.vgrow="NEVER"/>
-        <TextField fx:id="rateField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Hourly Rate / Service Charge" VBox.vgrow="NEVER"/>
-        <TextField fx:id="locationField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="City / Area" VBox.vgrow="NEVER"/>
+        <TextField fx:id="experienceField" maxWidth="450" prefHeight="44" promptText="Experience (years)"/>
+        <TextField fx:id="rateField" maxWidth="450" prefHeight="44" promptText="Hourly Rate / Service Charge"/>
+        <TextField fx:id="locationField" maxWidth="450" prefHeight="44" promptText="City / Area"/>
 
-        <PasswordField fx:id="passwordField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Password" VBox.vgrow="NEVER"/>
-        <PasswordField fx:id="confirmPasswordField" maxWidth="450" opacity="0.95" prefHeight="44" promptText="Confirm Password" VBox.vgrow="NEVER"/>
+        <!-- PASSWORD FIELD -->
+        <PasswordField fx:id="passwordField"
+                       maxWidth="450"
+                       prefHeight="44"
+                       promptText="Password"
+                       onKeyReleased="#onPasswordTyping"/>
 
-        <Button onAction="#onSignUpSubmit" styleClass="animated-button" prefWidth="150" style="-fx-background-color: #2d9d48; -fx-text-fill: white;" text="Sign Up">
+        <!-- PASSWORD CONDITIONS (AUTO CHECK ONLY) -->
+        <VBox spacing="4" alignment="CENTER_LEFT" maxWidth="450">
+            <CheckBox fx:id="lengthCheck" text="Minimum 8 characters" disable="true"/>
+            <CheckBox fx:id="upperLowerCheck" text="Uppercase and Lowercase letters" disable="true"/>
+            <CheckBox fx:id="numberCheck" text="Contains a number" disable="true"/>
+            <CheckBox fx:id="specialCharCheck" text="Contains special character (!@#$%^&amp;*)" disable="true"/>
+        </VBox>
+
+        <PasswordField fx:id="confirmPasswordField"
+                       maxWidth="450"
+                       prefHeight="44"
+                       promptText="Confirm Password"/>
+
+        <Button text="Sign Up"
+                prefWidth="150"
+                onAction="#onSignUpSubmit"
+                styleClass="animated-button"
+                style="-fx-background-color: #2d9d48; -fx-text-fill: white;">
             <font>
-                <Font name="Roboto Light" size="22.0" />
+                <Font name="Roboto Light" size="22"/>
             </font>
         </Button>
 
-        <Hyperlink onAction="#onBackToLogin" text="Back to Login" />
+        <Hyperlink text="Back to Login" onAction="#onBackToLogin"/>
+
     </children>
 </VBox>

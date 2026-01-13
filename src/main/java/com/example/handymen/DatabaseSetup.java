@@ -55,6 +55,18 @@ public class DatabaseSetup {
         execute(query, "Worker slots table ensured.");
     }
 
+    public static void createNotificationsTable() {
+        String query = "CREATE TABLE IF NOT EXISTS notifications (\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    worker_email TEXT,\n" +
+                "    message TEXT,\n" +
+                "    created_at TEXT\n" +
+                ");\n";
+
+        execute(query, "Notifications table ensured.");
+    }
+
+
     private static void execute(String sql, String successMsg) {
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()) {

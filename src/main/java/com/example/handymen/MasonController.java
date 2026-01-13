@@ -30,6 +30,15 @@ public class MasonController {
     @FXML
     public void initialize() {
 
+        masonTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Worker selectedWorker = masonTable.getSelectionModel().getSelectedItem();
+                if (selectedWorker != null) {
+                    openWorkerDetails(selectedWorker);
+                }
+            }
+        });
+
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -94,8 +103,8 @@ public class MasonController {
 
             if (list.isEmpty()) {
                 alert("Info", onlyMyLocation
-                        ? "No masons found in your location."
-                        : "No masons available.");
+                        ? "No mason found in your location."
+                        : "No mason available.");
             }
 
         } catch (Exception e) {
@@ -110,6 +119,26 @@ public class MasonController {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
+    }
+    private void openWorkerDetails(Worker worker) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("WorkerDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            WorkerDetailsController controller = loader.getController();
+            controller.setWorker(worker);
+
+            Stage stage = new Stage();
+            stage.setTitle("Worker Details");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert("Error", "Unable to open worker details.");
+        }
     }
 
     private void alert(String title, String msg) {

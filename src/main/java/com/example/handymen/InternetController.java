@@ -30,6 +30,15 @@ public class InternetController {
     @FXML
     public void initialize() {
 
+        internetTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Worker selectedWorker = internetTable.getSelectionModel().getSelectedItem();
+                if (selectedWorker != null) {
+                    openWorkerDetails(selectedWorker);
+                }
+            }
+        });
+
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -94,22 +103,42 @@ public class InternetController {
 
             if (list.isEmpty()) {
                 alert("Info", onlyMyLocation
-                        ? "No electricians found in your location."
-                        : "No electricians available.");
+                        ? "No internet provider found in your location."
+                        : "No internet provider available.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            alert("Error", "Failed to load electricians.");
+            alert("Error", "Failed to load internet providers.");
         }
     }
 
     @FXML
-    public void backToHome(ActionEvent e) throws IOException {
+    public void goHome(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 960));
         stage.show();
+    }
+    private void openWorkerDetails(Worker worker) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("WorkerDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            WorkerDetailsController controller = loader.getController();
+            controller.setWorker(worker);
+
+            Stage stage = new Stage();
+            stage.setTitle("Worker Details");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            alert("Error", "Unable to open worker details.");
+        }
     }
 
     private void alert(String title, String msg) {
